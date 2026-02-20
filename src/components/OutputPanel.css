@@ -1,0 +1,144 @@
+.output-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #0d0d14;
+  border-left: 1px solid var(--border);
+}
+
+.output-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.output-content {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  min-height: 100px;
+}
+
+.output-text {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.output-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 80px;
+  gap: 8px;
+  color: var(--text-muted);
+}
+
+.output-empty-icon {
+  font-size: 1.5rem;
+  opacity: 0.3;
+}
+
+.output-empty p {
+  font-size: 0.8rem;
+}
+
+/* Test Results */
+.test-results {
+  border-top: 1px solid var(--border);
+  padding: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.test-results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.test-score {
+  font-family: var(--font-mono);
+  color: var(--accent-purple);
+}
+
+.test-result {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  transition: background 0.2s;
+}
+
+.test-result.passed {
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.test-result.failed {
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.test-icon.pass {
+  color: var(--accent-green);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.test-icon.fail {
+  color: var(--accent-red);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.test-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.test-input {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-primary);
+}
+
+.test-expected {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+}
+
+.test-expected code {
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+}
+
+.test-actual {
+  color: var(--accent-red) !important;
+}
+

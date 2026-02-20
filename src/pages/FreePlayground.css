@@ -1,0 +1,259 @@
+.free-playground {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 60px);
+}
+
+/* Toolbar */
+.pg-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pg-toolbar-left,
+.pg-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lang-selector {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.lang-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.lang-btn.active {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.lang-icon {
+  font-size: 0.9rem;
+}
+
+.pg-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.pg-action:hover {
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+
+.pg-action.danger:hover {
+  color: var(--accent-red);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.pg-run-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: var(--gradient-main);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.pg-run-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+}
+
+.pg-run-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pg-run-btn kbd {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+/* Snippets Bar */
+.snippets-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(139, 92, 246, 0.03);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+
+.snippets-label {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.snippet-chip {
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.snippet-name {
+  padding: 3px 10px;
+  background: none;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  transition: color 0.2s;
+}
+
+.snippet-name:hover {
+  color: var(--accent-purple);
+}
+
+.snippet-delete {
+  padding: 3px 6px;
+  background: none;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  border-left: 1px solid var(--border);
+  transition: color 0.2s;
+}
+
+.snippet-delete:hover {
+  color: var(--accent-red);
+}
+
+/* Editor Layout */
+.pg-editor-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.pg-editor-pane {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.pg-output-pane {
+  width: 40%;
+  min-width: 280px;
+  max-width: 550px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Preview Split */
+.pg-preview-split {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.pg-console-half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-height: 40%;
+}
+
+.pg-preview-half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.preview-frame {
+  flex: 1;
+  border: none;
+  background: white;
+  min-height: 200px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pg-editor-layout {
+    flex-direction: column;
+  }
+
+  .pg-output-pane {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    min-height: 200px;
+  }
+
+  .lang-label {
+    display: none;
+  }
+
+  .pg-run-btn kbd {
+    display: none;
+  }
+
+  .pg-toolbar {
+    padding: 6px 8px;
+  }
+}
+
