@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { challenges, languageConfig, difficultyConfig } from '../data/challenges'
 import CodeEditor from '../components/CodeEditor'
 import OutputPanel from '../components/OutputPanel'
-import { executeJavaScript, runTests } from '../utils/codeRunner'
+import { executeJavaScript, runTests, executePython, runPythonTests, loadPyodide, isPyodideReady } from '../utils/codeRunner'
 import confetti from 'canvas-confetti'
 import toast from 'react-hot-toast'
 import {
@@ -24,6 +24,17 @@ export default function ChallengeView() {
   const [showHint, setShowHint] = useState(false)
   const [showSolution, setShowSolution] = useState(false)
   const [isCompleted, setIsCompleted] = useState(false)
+  const [pyodideStatus, setPyodideStatus] = useState('idle') // idle | loading | ready
+
+  // Pre-load Pyodide when entering a Python challenge
+  useEffect(() => {
+    if (challenge && challenge.language === 'python' && !isPyodideReady()) {
+      setPyodideStatus('loading')
+      loadPyodide().then(() => setPyodideStatus('ready')).catch(() => setPyodideStatus('idle'))
+    } else if (isPyodideReady()) {
+      setPyodideStatus('ready')
+    }
+  }, [challenge?.id])
 
   useEffect(() => {
     if (challenge) {
@@ -40,14 +51,16 @@ export default function ChallengeView() {
     }
   }, [challenge?.id])
 
-  const handleRun = useCallback(() => {
+  const handleRun = useCallback(async () => {
     if (!challenge) return
     setIsRunning(true)
+    setOutput('')
+    setTestResults(null)
 
     // Save code
     localStorage.setItem(`code_${challenge.id}`, code)
 
-    setTimeout(() => {
+    try {
       if (challenge.language === 'javascript' || challenge.language === 'typescript') {
         const result = executeJavaScript(code)
         let outputStr = result.output || ''
@@ -67,15 +80,35 @@ export default function ChallengeView() {
           }
         }
       } else if (challenge.language === 'python') {
-        setOutput('⚠️ Python se ejecuta localmente como referencia.\n💡 Los tests de Python son visuales — verifica tu solución manualmente.')
-        setTestResults(null)
+        // Real Python execution with Pyodide
+        setOutput('🐍 Cargando Python...')
+
+        const result = await executePython(code)
+        let outputStr = result.output || ''
+        if (result.error) {
+          outputStr += (outputStr ? '\n' : '') + result.error
+        }
+        setOutput(outputStr)
+
+        // Run Python tests
+        if (challenge.tests && challenge.tests.length > 0) {
+          const results = await runPythonTests(code, challenge.tests)
+          setTestResults(results)
+
+          const allPassed = results.every(t => t.passed)
+          if (allPassed) {
+            handleChallengeCompleted()
+          }
+        }
       } else if (challenge.language === 'html') {
-        setOutput('✨ Abre la previsualización para ver tu resultado HTML')
+        setOutput('✨ Mira la previsualización a la derecha para ver tu resultado')
         setTestResults(null)
       }
+    } catch (err) {
+      setOutput(`❌ Error: ${err.message}`)
+    }
 
-      setIsRunning(false)
-    }, 300)
+    setIsRunning(false)
   }, [code, challenge])
 
   const handleChallengeCompleted = () => {
@@ -155,9 +188,18 @@ export default function ChallengeView() {
       {/* Floating Run Button — always visible */}
       <button className="floating-run-btn" onClick={handleRun} disabled={isRunning}>
         <Play size={18} />
-        {isRunning ? 'Ejecutando...' : 'Ejecutar'}
+        {isRunning
+          ? (challenge.language === 'python' ? '🐍 Ejecutando...' : 'Ejecutando...')
+          : '▶ Ejecutar'}
         <kbd>⌘↵</kbd>
       </button>
+
+      {/* Python loading indicator */}
+      {challenge.language === 'python' && pyodideStatus === 'loading' && (
+        <div className="pyodide-loading-bar">
+          🐍 Cargando motor de Python (solo la primera vez)...
+        </div>
+      )}
 
       {/* Top Bar */}
       <div className="challenge-topbar">

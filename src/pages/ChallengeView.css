@@ -140,6 +140,20 @@
   font-weight: 500;
 }
 
+/* Pyodide Loading */
+.pyodide-loading-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(59, 130, 246, 0.08);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+  color: var(--accent-blue);
+  font-size: 0.8rem;
+  font-weight: 500;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
 /* Hint Bar */
 .hint-bar {
   display: flex;

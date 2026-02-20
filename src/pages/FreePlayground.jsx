@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import CodeEditor from '../components/CodeEditor'
 import OutputPanel from '../components/OutputPanel'
-import { executeJavaScript } from '../utils/codeRunner'
+import { executeJavaScript, executePython, loadPyodide, isPyodideReady } from '../utils/codeRunner'
 import {
   Play, Copy, Download, Trash2, Save,
   FileCode, Eye
@@ -137,7 +137,7 @@ console.log(greetUser(dev));`,
 }`,
 
   python: `# 🐍 Python Playground
-# Nota: Python se ejecuta como referencia visual
+# ¡Se ejecuta de verdad en tu navegador con Pyodide!
 
 def fibonacci(n):
     """Genera los primeros n números de Fibonacci"""
@@ -200,18 +200,22 @@ export default function FreePlayground() {
     setOutput('')
   }, [language])
 
-  const handleRun = useCallback(() => {
+  const handleRun = useCallback(async () => {
     setIsRunning(true)
     localStorage.setItem(`playground_${language}`, code)
 
-    setTimeout(() => {
+    try {
       if (language === 'javascript' || language === 'typescript') {
         const result = executeJavaScript(code)
         let out = result.output || ''
         if (result.error) out += (out ? '\n' : '') + result.error
         setOutput(out || '✅ Código ejecutado sin output')
       } else if (language === 'python') {
-        setOutput('⚠️ Python no se puede ejecutar en el navegador.\n💡 Usa este espacio como referencia/borrador.\n\n📋 Tu código se ha guardado automáticamente.')
+        setOutput('🐍 Cargando Python...')
+        const result = await executePython(code)
+        let out = result.output || ''
+        if (result.error) out += (out ? '\n' : '') + result.error
+        setOutput(out || '✅ Código ejecutado sin output')
       } else if (language === 'json') {
         try {
           JSON.parse(code)
@@ -222,8 +226,11 @@ export default function FreePlayground() {
       } else {
         setOutput('💡 Usa la previsualización para ver el resultado visual.')
       }
-      setIsRunning(false)
-    }, 200)
+    } catch (err) {
+      setOutput(`❌ Error: ${err.message}`)
+    }
+
+    setIsRunning(false)
   }, [code, language])
 
   const handleSave = () => {

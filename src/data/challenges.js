@@ -352,11 +352,11 @@ def reverse_list(lst):
     pass
 
 print(reverse_list([1, 2, 3, 4, 5]))
-print(reverse_list(["a", "b", "c"]))
+print(reverse_list(['a', 'b', 'c']))
 print(reverse_list([]))`,
     tests: [
       { input: 'reverse_list([1, 2, 3, 4, 5])', expected: '[5, 4, 3, 2, 1]' },
-      { input: 'reverse_list(["a", "b", "c"])', expected: '["c", "b", "a"]' },
+      { input: "reverse_list(['a', 'b', 'c'])", expected: "['c', 'b', 'a']" },
       { input: 'reverse_list([])', expected: '[]' },
     ],
     solution: `def reverse_list(lst):
