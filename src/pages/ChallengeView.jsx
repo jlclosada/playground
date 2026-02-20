@@ -152,6 +152,13 @@ export default function ChallengeView() {
 
   return (
     <div className="challenge-view">
+      {/* Floating Run Button — always visible */}
+      <button className="floating-run-btn" onClick={handleRun} disabled={isRunning}>
+        <Play size={18} />
+        {isRunning ? 'Ejecutando...' : 'Ejecutar'}
+        <kbd>⌘↵</kbd>
+      </button>
+
       {/* Top Bar */}
       <div className="challenge-topbar">
         <div className="topbar-left">

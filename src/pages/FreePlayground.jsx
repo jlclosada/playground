@@ -292,6 +292,13 @@ export default function FreePlayground() {
 
   return (
     <div className="free-playground">
+      {/* Floating Run Button — always visible */}
+      <button className="floating-run-btn" onClick={handleRun} disabled={isRunning}>
+        <Play size={18} />
+        {isRunning ? 'Ejecutando...' : 'Ejecutar'}
+        <kbd>⌘↵</kbd>
+      </button>
+
       {/* Toolbar */}
       <div className="pg-toolbar">
         <div className="pg-toolbar-left">

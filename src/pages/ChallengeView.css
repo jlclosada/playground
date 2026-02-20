@@ -279,6 +279,52 @@
   padding: 80px 20px;
 }
 
+/* Floating Run Button */
+.floating-run-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--gradient-main);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.4);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: var(--font-sans);
+}
+
+.floating-run-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.5);
+}
+
+.floating-run-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.floating-run-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.floating-run-btn kbd {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  font-weight: 500;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .editor-layout {
